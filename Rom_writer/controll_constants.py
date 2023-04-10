@@ -11,7 +11,6 @@ def shift():
         indx=1
     else:
         indx *=2
-    # print(str(bin(indx))[2:], len(str(bin(indx))[2:]))
     return indx
 add_indx = 0
 def add_instruction(value, counter, flags= None):
@@ -31,32 +30,41 @@ Z_A         = shift()
 CPL_A       = shift()
 Z_D         = shift()
 CPL_D       = shift()
-ADD_AND     = shift()
+AND_A_D     = shift()
 CPL_OUT     = shift()
-OUT_LOW     = shift()
 CATCH_FLAGS = shift()
-OUT_HIGH    = shift()
 
 # Registers and Pointers
-A_IN        = shift()
-X_OUT       = shift()
-X_IN        = shift()
-S0          = shift()
-S1          = shift()
-SP_OUT      = shift()
-SP_IN       = shift()
-IP_SEL      = shift()
-IP_INP      = shift()
-AL_OUT      = shift()
-AL_IN       = shift()
-AH_OUT      = shift()
-AH_IN       = shift()
-R_STR       = shift()
-R_SEL       = shift()
-R_OUT       = shift() | R_SEL
-IR_RESET    = shift()
-IP_OUT      = shift()
-CONST_OUT   = shift()
+ALU_2_A     = shift()
+A_2_DB      = shift()
 
+ALU_2_X     = shift()
+X_2_DB      = shift()
+
+ALU_2_SP    = shift()
+X_2_AB      = shift()
+
+AB_2_IP     = shift()
+IP_INP      = shift()
+IP_2_AB     = shift()
+
+ALU_2_AL    = shift()
+AL_2_AB     = shift()
+
+ALU_2_AH    = shift()
+AH_2_AB     = shift()
+
+# RAM / IO control
+R_STR       = shift()
+INP_OUT     = shift()
+R_2_DB      = shift()
+
+# Additional
+CONST_OUT   = shift()
+IR_RESET    = shift()
+ALU_S0      = shift()
+ALU_S1      = shift()
 def st(instruction):
     return str(hex(instruction))[2:]
+
+print(f"{len(str(bin(indx))[2:])} Micro Instruction has been added")
