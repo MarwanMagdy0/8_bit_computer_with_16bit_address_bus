@@ -15,6 +15,8 @@ def shift():
 add_indx = 0
 def add_instruction(value, counter, flags= None):
     global add_indx
+    if counter > 1:
+        add_indx -=1
     if flags == None:
         ROM[counter*2**10 + add_indx*2**2 + 0b00] = st(value)
         ROM[counter*2**10 + add_indx*2**2 + 0b01] = st(value)
@@ -23,7 +25,7 @@ def add_instruction(value, counter, flags= None):
 
     else:
         ROM[counter*2**10 + add_indx*2**2 + flags] = st(value)
-    print("Instruction added: {:08b}".format(add_indx))
+    print("Instruction added: {:08b}, {:02x}".format(add_indx,add_indx))
     add_indx +=1
 # ALU CONTROLL
 Z_A         = shift()
@@ -42,17 +44,15 @@ ALU_2_X     = shift()
 X_2_DB      = shift()
 
 ALU_2_SP    = shift()
-X_2_AB      = shift()
+SP_2_AB      = shift()
 
-AB_2_IP     = shift()
+IP_SEL      = shift()
 IP_INP      = shift()
 IP_2_AB     = shift()
 
 ALU_2_AL    = shift()
-AL_2_AB     = shift()
-
 ALU_2_AH    = shift()
-AH_2_AB     = shift()
+A_2_AB      = shift()
 
 # RAM / IO control
 R_STR       = shift()
