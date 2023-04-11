@@ -49,6 +49,8 @@ SP_2_AB      = shift()
 IP_SEL      = shift()
 IP_INP      = shift()
 IP_2_AB     = shift()
+IPL_2_DB    = shift()
+IPH_2_DB    = shift()
 
 ALU_2_AL    = shift()
 ALU_2_AH    = shift()

@@ -16,7 +16,7 @@ add_instruction(X_2_DB | ALU_2_A | CATCH_FLAGS | IR_RESET, 0b001) # A = A + X
 add_instruction(X_2_DB | ALU_2_X | CATCH_FLAGS | IR_RESET, 0b001) # X = A + X
 
 add_instruction(CPL_A | CPL_OUT | X_2_DB | ALU_2_A | CATCH_FLAGS | IR_RESET, 0b001) # A = A - X
-add_instruction(CPL_D | CPL_OUT | X_2_DB | ALU_2_X | CATCH_FLAGS | IR_RESET, 0b001) # X = X - A
+add_instruction(CPL_A | CPL_OUT | A_2_DB | ALU_2_X | CATCH_FLAGS | IR_RESET | ALU_S0, 0b001) # X = X - A
 
 add_instruction(IP_2_AB | R_2_DB | ALU_2_A | CATCH_FLAGS | IR_RESET | IP_SEL, 0b001) # A = A + NUM
 add_instruction(IP_2_AB | R_2_DB | ALU_2_X | CATCH_FLAGS | IR_RESET | IP_SEL | ALU_S0, 0b001) # X = X + NUM
@@ -30,7 +30,7 @@ add_instruction(A_2_AB | IP_INP | IP_SEL | IR_RESET, 0b011)
 
 add_instruction(IR_RESET, 0b001) # NOP
 
-with open("ROM", "w") as file: # Writing to the file
+with open("Rom_writer/ROM", "w") as file: # Writing to the file
     ROM.insert(0,"v2.0")
     ROM.insert(1,"raw\n")
     file.write("")
