@@ -2,6 +2,10 @@
 ROM = ["0" for _ in range(0x2000)] # Create Rom with 0x2000 zeros
 instructions = []
 _indx=0
+
+def st(instruction):
+    return str(hex(instruction))[2:]
+
 def shift():
     # a shifter function shifts 1 each time it is called
     # ex:
@@ -14,6 +18,7 @@ def shift():
     return _indx
 _instructions_indx = -1
 _local_counter = 1
+
 def add_instruction(value, name):
     global _instructions_indx, _local_counter
     if name not in instructions:
@@ -55,6 +60,11 @@ def add_conditional_zero_instruction(if_zero, if_not_zero, name):
     if _local_counter==1:
         print("Instruction added: 0x{:02x}".format(_instructions_indx), f"--> {name}")
     _local_counter+=1
+
+def add_relative_instruction(alu_logic, name):
+    add_instruction(IP_2_AB | R_2_DB  | Z_A | ALU_2_AL | IP_INC,name)
+    add_instruction(IP_2_AB | R_2_DB  | Z_A | ALU_2_AH | IP_INC,name)
+    add_instruction(ADDR_2_AB | alu_logic | IR_RESET,name)
 # ALU CONTROLL
 Z_A         = shift()
 CPL_A       = shift()
@@ -82,7 +92,7 @@ IPH_2_DB    = shift()
 
 ALU_2_AL    = shift()
 ALU_2_AH    = shift()
-A_2_AB      = shift()
+ADDR_2_AB      = shift()
 
 # RAM / IO control
 R_STR       = shift()
@@ -94,7 +104,6 @@ CONST_OUT   = shift()
 IR_RESET    = shift()
 ALU_S0      = shift()
 ALU_S1      = shift()
-def st(instruction):
-    return str(hex(instruction))[2:]
+
 
 print(f"{len(str(bin(_indx))[2:])} Micro Instruction has been added")

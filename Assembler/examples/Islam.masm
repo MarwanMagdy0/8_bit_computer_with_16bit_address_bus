@@ -1,0 +1,24 @@
+porta = $0000
+portb = $0001
+mov x, #00
+loop:
+    mov a, $frame1+x
+    out a, porta
+    mov a, #01
+    out a, portb
+    mov a, #00
+    out a, portb
+    add x, #1
+    cmp x, #2d
+    mov a, #02
+    out a, portb
+    jz $reset
+    jmp $loop    
+
+reset:
+    mov x, #00
+    jmp $loop
+
+
+frame1:
+    db 0 0 8 24 4 24 8 0 24 24 7c 20 0 50 50 7c 0 74 54 7c 0 4 4 7c 0 5c 54 74 0 7c 24 6c 0 7c 54 5c 0 7c 14 1c 0 7c 54 7c 0

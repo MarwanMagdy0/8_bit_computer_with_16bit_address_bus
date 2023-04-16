@@ -1,0 +1,12 @@
+num1 = #09
+num2 = #05
+mov a, num1
+mov x, num2
+loop:
+    sub x , #1
+    jz $halt
+    add a, num1
+    jmp $loop
+
+halt:
+    jmp $halt

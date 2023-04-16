@@ -1,0 +1,146 @@
+porta = $0000
+portb = $0001
+mov x, #00
+show1:
+    mov a, $frame1+x
+    out a, porta
+    mov a, #01
+    out a, portb
+    mov a, #00
+    out a, portb
+    add x, #1
+    cmp x, #20
+    jz $end_show1
+    jmp $show1
+
+end_show1:
+    mov x, #00
+    mov a, #02
+    out a, portb
+
+show2:
+    mov a, $frame2+x
+    out a, porta
+    mov a, #01
+    out a, portb
+    mov a, #00
+    out a, portb
+    add x, #1
+    cmp x, #20
+    jz $end_show2
+    jmp $show2
+
+end_show2:
+    mov x, #00
+    mov a, #02
+    out a, portb
+
+show3:
+    mov a, $frame3+x
+    out a, porta
+    mov a, #01
+    out a, portb
+    mov a, #00
+    out a, portb
+    add x, #1
+    cmp x, #20
+    jz $end_show3
+    jmp $show3
+
+end_show3:
+    mov x, #00
+    mov a, #02
+    out a, portb
+
+show4:
+    mov a, $frame4+x
+    out a, porta
+    mov a, #01
+    out a, portb
+    mov a, #00
+    out a, portb
+    add x, #1
+    cmp x, #20
+    jz $end_show4
+    jmp $show4
+
+end_show4:
+    mov x, #00
+    mov a, #02
+    out a, portb
+
+show5:
+    mov a, $frame5+x
+    out a, porta
+    mov a, #01
+    out a, portb
+    mov a, #00
+    out a, portb
+    add x, #1
+    cmp x, #20
+    jz $end_show5
+    jmp $show5
+
+end_show5:
+    mov x, #00
+    mov a, #02
+    out a, portb
+
+show6:
+    mov a, $frame6+x
+    out a, porta
+    mov a, #01
+    out a, portb
+    mov a, #00
+    out a, portb
+    add x, #1
+    cmp x, #20
+    jz $end_show6
+    jmp $show6
+
+end_show6:
+    mov x, #00
+    mov a, #02
+    out a, portb
+
+show7:
+    mov a, $frame7+x
+    out a, porta
+    mov a, #01
+    out a, portb
+    mov a, #00
+    out a, portb
+    add x, #1
+    cmp x, #20
+    jz $end_show7
+    jmp $show7
+
+end_show7:
+    mov x, #00
+    mov a, #02
+    out a, portb
+
+halt:
+    jmp $halt
+
+
+frame1:
+    db 0 0 6 9 9 6 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+frame2:
+    db 0 0 4 a 11 a 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+frame3:
+    db 0 0 0 6 9 9 6 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+frame4:
+    db 0 0 0 e 11 11 e 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+frame5:
+    db 0 0 0 c 12 12 c 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+frame6:
+    db 0 0 0 0 c 12 12 c 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+frame7:
+    db 0 0 0 0 0 6 9 9 6 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
