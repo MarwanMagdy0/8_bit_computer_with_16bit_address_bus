@@ -3,31 +3,15 @@ from instructions import *
 import os, sys
 
 CODE = """
-porta = $0000
-portb = $0001
-mov x, #00
-loop:
-    mov a, $frame1+x
-    out a, porta
-    mov a, #01
-    out a, portb
-    mov a, #00
-    out a, portb
-    add x, #1
-    cmp x, #2d
-    mov a, #02
-    out a, portb
-    jz $reset
-    jmp $loop    
+mov a, #12
+mov x, #34
 
-reset:
-    mov x, #00
-    jmp $loop
+push x
+push a
+ret
 
-
-frame1:
-    db 0 0 8 24 4 24 8 0 24 24 7c 20 0 50 50 7c 0 74 54 7c 0 4 4 7c 0 5c 54 74 0 7c 24 6c 0 7c 54 5c 0 7c 14 1c 0 7c 54 7c 0
-
+halt:
+    jmp $halt
 """
 file_path= os.path.dirname(__file__)+"\\"
 os.chdir(file_path)
@@ -38,6 +22,7 @@ if len(sys.argv)==2:
 CODE = CODE.strip()
 preprocessed_ops = preprocessing_commenting_and_cleaning(CODE.split("\n"))
 preprocessed_ops = preprcessing_labels_and_constants(preprocessed_ops)
+# print(preprocessed_ops)
 binary_code = "v2.0 raw\n"
 instruction_pointer = 0
 for line in preprocessed_ops:
@@ -96,6 +81,21 @@ for line in preprocessed_ops:
     elif line[0]=="DB":
         for hex_byte in line[1:]:
             line_code += hex_byte.lower() + " "
+            instruction_pointer+=1
+    
+    elif line[0] == "PUSH":
+        if line[1] == "A":
+            line_code += inst2hex(PUSH_A)
+            instruction_pointer+=1
+        elif line[1] == "X":
+            line_code += inst2hex(PUSH_X)
+            instruction_pointer+=1
+    elif line[0] == "PULL":
+        if line[1] == "A":
+            line_code += inst2hex(PULL_A)
+            instruction_pointer+=1
+        elif line[1] == "X":
+            line_code += inst2hex(PULL_X)
             instruction_pointer+=1
 
     str_line = " ".join(line)

@@ -5,8 +5,18 @@ def preprocessing_commenting_and_cleaning(each_line):
         if len(line)==0:
              continue
         c = ""
+        string_start = False
         for char in line:
-            if char != "" and char !=" " and char != "," and char != ";" and char !="+" and char !=":" and char !="=" and char!='"':
+            if char =='"' and string_start:
+                string_start = False
+            if char =='"' and not string_start:
+                string_start = True
+            
+            if string_start:
+                if char !='"':
+                    operations[idx].append("{:02x}".format(ord(char)))
+                continue
+            if char != "" and char !=" " and char != "," and char != ";" and char !="+" and char !=":" and char !="=":
                 c+=char
             elif char == "=":
                 operations[idx].insert(0,"=")
@@ -26,7 +36,6 @@ def preprocessing_commenting_and_cleaning(each_line):
                 c = ""
         if c !="":
                 operations[idx].append(c.upper())
-    print(operations)
     return list(filter(None, operations))
 
 def instruction_pointer_for_multi_op_instruction(line, constants={}, labels={}):
@@ -61,12 +70,9 @@ def instruction_pointer_for_multi_op_instruction(line, constants={}, labels={}):
         
         elif line[2].startswith("$"):
             instruction_pointer+=3
-            if len(line) ==4:
-                instruction_pointer+=1
         
         elif line[2].startswith("%"):
             instruction_pointer+=2
-
 
     elif line[1].startswith("$"):
         if constants.get(line[2], False):
@@ -127,6 +133,8 @@ def preprcessing_labels_and_constants(each_line_no_comments):
         elif line[0]=="DB":
             for _ in line[1:]:
                 instruction_pointer+=1
+        elif line[0]=="PUSH" or line[0] =="PULL":
+            instruction_pointer+=1
         else:
             continue
         operations_no_labels.append(line)

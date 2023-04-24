@@ -1,0 +1,21 @@
+porta = $0000
+portb = $0001
+tty_latch_enable = #0c
+mov x,#00
+loop:
+    mov a, $word + x
+    out a, porta
+    cmp a, #3b
+    jz $halt
+    mov a, tty_latch_enable
+    out a, portb
+    mov a, #00
+    out a, portb
+    add x, #01
+    jmp $loop
+
+halt:
+    jmp $halt
+
+word:
+    db "Hello, World!;"

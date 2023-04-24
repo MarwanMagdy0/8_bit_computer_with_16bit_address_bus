@@ -1,6 +1,6 @@
 import pygame , sys
 import numpy as np
-ROWS = 32
+ROWS = 40
 COLS = 8
 def hex_screen(screen):
     for i in range(ROWS-1,-1,-1):

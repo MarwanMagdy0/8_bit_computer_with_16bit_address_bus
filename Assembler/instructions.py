@@ -21,6 +21,7 @@ MOV_A_ADDR   = next(gen)
 MOV_X_ADDR   = next(gen)
 
 MOV_A_ADDR_X = next(gen)
+MOV_ADDR_X_A = next(gen)
 
 ADD_A_X      = next(gen)
 ADD_X_A      = next(gen)
@@ -55,6 +56,11 @@ CMP_X_ADDR    = next(gen)
 
 OUT_A_ADDR    = next(gen)
 OUT_X_ADDR    = next(gen)
+
+PUSH_A        = next(gen)
+PUSH_X        = next(gen)
+PULL_A        = next(gen)
+PULL_X        = next(gen)
 def bin2hex(text):
     return "{:02x} ".format(int(eval("0b"+text[1:])))
 
@@ -75,7 +81,7 @@ def error_print(line, error_msg):
     print("    ",f"ERROR: {error_msg}")
     os._exit(0)
 
-def handle_multi_operand(line, a_x, a_num, a_addr, x_a, x_num, x_addr, a_addr_x=None, addr_x=None, addr_a=None):
+def handle_multi_operand(line, a_x, a_num, a_addr, x_a, x_num, x_addr, a_addr_x=None):
     binary_code = ""
     if line[1] == "A":
         if line[2] == "X":
@@ -115,7 +121,18 @@ def handle_multi_operand(line, a_x, a_num, a_addr, x_a, x_num, x_addr, a_addr_x=
             binary_code += inst2hex(x_num)
             binary_code += bin2hex(line[2])
     
-    elif line[1]=="$":
-        pass
+    elif line[1].startswith("$"):
+        if len(line)==3:
+            if line[2]=="A":
+                binary_code += inst2hex(MOV_A_ADDR)
+                binary_code += address2hex(line[1])
+            elif line[2]=="X":
+                binary_code += inst2hex(MOV_X_ADDR)
+                binary_code += address2hex(line[1])
+            else:
+                error_print(line+" contains some thing wrong")
+        elif len(line)==4:
+            binary_code += inst2hex(MOV_ADDR_X_A)
+            binary_code += address2hex(line[1])
 
     return binary_code
