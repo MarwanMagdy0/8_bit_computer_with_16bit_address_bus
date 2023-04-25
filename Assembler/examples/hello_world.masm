@@ -5,12 +5,12 @@ mov x,#00
 loop:
     mov a, $word + x
     out a, porta
-    cmp a, #3b
-    jz $halt
+    cmp a, #0a
     mov a, tty_latch_enable
     out a, portb
     mov a, #00
     out a, portb
+    jz $halt ; works at the last flag set by comparing (a==porta)?
     add x, #01
     jmp $loop
 
@@ -18,4 +18,4 @@ halt:
     jmp $halt
 
 word:
-    db "Hello, World!;"
+    db "Hello, World!\n"

@@ -1,0 +1,33 @@
+porta = $0000
+portb = $0001
+portc = $0002
+tty_latch_enable = #0c
+keyboard_input  = #7f
+keyboard_enable = #80
+keyboard_latch  = #10
+
+loop:
+    in a, $0002
+    mov x, a
+    and a, keyboard_enable
+    cmp a, %10000000 ; check if the keyboard buffer contain something
+    jz $if_equal
+        jmp $loop
+    if_equal:
+        mov a, keyboard_latch
+        out a, $0001
+        mov a,#00
+        out a, $0001
+        and x, keyboard_input
+        mov a, x
+        jsr $print_char
+        jmp $loop
+
+print_char:
+    out a, porta
+    mov a, tty_latch_enable
+    out a, portb
+    mov a, #00
+    out a, portb
+    add x, #01
+    ret

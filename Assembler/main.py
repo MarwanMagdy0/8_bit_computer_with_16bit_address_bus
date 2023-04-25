@@ -3,12 +3,14 @@ from instructions import *
 import os, sys
 
 CODE = """
-mov a, #12
-mov x, #34
-
-push x
-push a
-ret
+mov a, #0a
+mov x, #01
+loop:
+    rol a
+    rol x
+    cmp a, #80
+    jz $halt
+    jmp $loop
 
 halt:
     jmp $halt
@@ -44,11 +46,32 @@ for line in preprocessed_ops:
     elif line[0] == "CMP":
         line_code +=handle_multi_operand(line, CMP_A_X, CMP_A_NUM, CMP_A_ADDR, CMP_X_A, CMP_X_NUM, CMP_X_ADDR)
         instruction_pointer+=instruction_pointer_for_multi_op_instruction(line)
+
+    elif line[0] == "AND":
+        line_code +=handle_multi_operand(line, AND_A_X, AND_A_NUM, AND_A_ADDR, AND_X_A, AND_X_NUM, AND_X_ADDR)
+        instruction_pointer+=instruction_pointer_for_multi_op_instruction(line)
     
     elif line[0] == "OUT":
         if line[1] == "A":
             line_code += inst2hex(OUT_A_ADDR) + address2hex(line[2])[0:2] + " "
-            instruction_pointer+=2
+        elif line[1] =="X":
+            line_code += inst2hex(OUT_X_ADDR) + address2hex(line[2])[0:2] + " "
+        instruction_pointer+=2
+
+    elif line[0] == "IN":
+        if line[1] == "A":
+            line_code += inst2hex(IN_A_ADDR) + address2hex(line[2])[0:2] + " "
+        elif line[1] =="X":
+            line_code += inst2hex(IN_X_ADDR) + address2hex(line[2])[0:2] + " "
+        instruction_pointer+=2
+
+    elif line[0] == "ROL":
+        if line[1] == "A":
+            line_code += inst2hex(ROL_A)
+        elif line[1] =="X":
+            line_code += inst2hex(ROL_X)
+        instruction_pointer+=1
+
     elif line[0]=="JMP":
         instruction_pointer+=3
         if line[1].startswith("$"):

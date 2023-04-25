@@ -42,10 +42,6 @@ add_instruction(X_2_DB | ALU_2_X | CATCH_FLAGS | IR_RESET, "add x, a")
 add_instruction(IP_2_AB | R_2_DB | ALU_2_A | CATCH_FLAGS | IR_RESET | IP_INC,"add a, #num")
 add_instruction(IP_2_AB | R_2_DB | ALU_2_X | CATCH_FLAGS | IR_RESET | IP_INC | ALU_S0, "add x, #num")
 
-add_instruction(IP_2_AB | Z_A | R_2_DB | ALU_2_AL | IP_INC, "add a, $addr")
-add_instruction(IP_2_AB | Z_A  | R_2_DB | ALU_2_AH | IP_INC, "add a, $addr")
-add_instruction(ADDR_2_AB | R_2_DB | ALU_2_A |  CATCH_FLAGS | IR_RESET, "add a, $addr")
-
 add_relative_instruction(R_2_DB | ALU_2_A |  CATCH_FLAGS, "add a, $addr")
 
 add_relative_instruction(R_2_DB | ALU_S0 | ALU_2_X |  CATCH_FLAGS, "add x, $addr")
@@ -106,6 +102,28 @@ add_instruction(ALU_S1 | Z_D | CPL_D | ALU_2_SP | SP_2_AB | IR_RESET, "pull a")
 
 add_instruction(SP_2_AB | R_2_DB | Z_A | ALU_2_X, "pull x")
 add_instruction(ALU_S1 | Z_D | CPL_D | ALU_2_SP | SP_2_AB | IR_RESET, "pull x")
+
+add_instruction(IP_2_AB | R_2_DB | Z_A | ALU_2_AL | IP_INC,     "in a, $2bit_addr")
+add_instruction(ADDR_2_AB | ALU_2_A | Z_A | INP_OUT | IR_RESET, "in a, $2bit_addr")
+
+add_instruction(IP_2_AB | R_2_DB | Z_A | ALU_2_AL | IP_INC,     "in x, $2bit_addr")
+add_instruction(ADDR_2_AB | ALU_2_A | Z_A | INP_OUT | IR_RESET, "in x, $2bit_addr")
+
+add_instruction(X_2_DB | ALU_2_A | CATCH_FLAGS | IR_RESET | AND_A_D, "and a, x")
+add_instruction(X_2_DB | ALU_2_X | CATCH_FLAGS | IR_RESET | AND_A_D, "and x, a")
+
+add_instruction(IP_2_AB | R_2_DB | ALU_2_A | CATCH_FLAGS | IR_RESET | IP_INC | AND_A_D,"and a, #num")
+add_instruction(IP_2_AB | R_2_DB | ALU_2_X | CATCH_FLAGS | IR_RESET | IP_INC | ALU_S0 | AND_A_D, "and x, #num")
+
+
+add_relative_instruction(R_2_DB | ALU_2_A |  CATCH_FLAGS | AND_A_D, "and a, $addr")
+
+add_relative_instruction(R_2_DB | ALU_S0 | ALU_2_X |  CATCH_FLAGS | AND_A_D, "and x, $addr")
+
+
+add_instruction(A_2_DB | ALU_2_A | CATCH_FLAGS | IR_RESET, "rol a")
+add_instruction(X_2_DB | ALU_2_X | CATCH_FLAGS | ALU_S0 | IR_RESET, "rol x")
+
 with open("Rom_writer//ROM", "w") as file: # Writing to the file
     ROM.insert(0,"v2.0")
     ROM.insert(1,"raw\n")
